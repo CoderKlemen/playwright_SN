@@ -1,0 +1,7 @@
+/node_modules
+/environments.ts
+
+# test files
+src/tests/*-snapshots/*-headed-*.png
+/test-results
+/playwright-report

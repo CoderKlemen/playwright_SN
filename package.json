@@ -1,0 +1,23 @@
+{
+  "name": "assignment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test --project='chromium' --project='firefox' --project='webkit' --workers=1",
+    "test:tagged": "npx playwright test --project='chromium' --project='firefox' --workers=1 --project='webkit' --grep",
+    "test:chrome-headed": "npx playwright test --project='chromium-headed' --workers=1",
+    "test:chrome-headed-tagged": "npx playwright test --project='chromium-headed' --workers=1 --grep",
+    "codegen:firefox": "npx playwright codegen -b firefox",
+    "codegen": "npx playwright codegen",
+    "format": "prettier --write \"src/**/*.{js,ts}\" --ignore-path=\".prettierignore\""
+  },
+  "author": "Klemen Benedicic",
+  "license": "ISC",
+  "dependencies": {
+    "@playwright/test": "^1.35.0",
+    "prettier": "^2.8.7",
+    "ts-node": "^10.9.1",
+    "typescript": "~5.0.3"
+  }
+}
