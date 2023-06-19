@@ -6,8 +6,8 @@ This project is made with Playwright test suite from Microsoft: https://playwrig
 Node.js needs to be installed on the system. Current version is specified in .nvmrc.
 
 ```
-# Install Playwright
-npm install @playwright/test
+# Install Playwright and other dependencies
+npm install
 
 # Install browsers
 npx playwright install
@@ -35,3 +35,21 @@ npm run e2e-codegen:p13dev
 
 # ** Check package.json scripts section for all possible commands **
 ```
+
+
+
+## TO-DO
+
+Sign-in > Validate login functionality
+[ ] Test case for entry of login credentials
+[ ] Validate successful login
+[ ] Validate error handling
+    [ ] Password
+    [ ] email
+
+Create Project and Experiment in the Project
+[ ] Test case for creation of Project
+[ ] Test case for creation of Experiment
+[ ] Optional - Error handling:
+    [ ] Duplicated project ( same name )
+    [ ] Project with too short name ( less than 2 chars )

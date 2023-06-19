@@ -10,6 +10,7 @@
     "test:chrome-headed-tagged": "npx playwright test --project='chromium-headed' --workers=1 --grep",
     "codegen:firefox": "npx playwright codegen -b firefox",
     "codegen": "npx playwright codegen",
+    "codegen:scinote": "npx playwright codegen https://my.scinote.net/",
     "format": "prettier --write \"src/**/*.{js,ts}\" --ignore-path=\".prettierignore\""
   },
   "author": "Klemen Benedicic",
