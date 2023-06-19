@@ -41,14 +41,14 @@ npm run e2e-codegen:p13dev
 ## TO-DO
 
 Sign-in > Validate login functionality
-[ ] Test case for entry of login credentials
-[ ] Validate successful login
-[ ] Validate error handling
-    [ ] Password
-    [ ] email
+[x] Test case for entry of login credentials
+[x] Validate successful login
+[x] Validate error handling
+    [x] Password
+    [x] email
 
 Create Project and Experiment in the Project
-[ ] Test case for creation of Project
+[x] Test case for creation of Project
 [ ] Test case for creation of Experiment
 [ ] Optional - Error handling:
     [ ] Duplicated project ( same name )

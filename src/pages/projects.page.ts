@@ -11,6 +11,10 @@ export class ProjectsPage {
   readonly projectsContainer: Locator;
   readonly projectsContainerCard: Locator;
   readonly projectsSideNavBarLink: Locator;
+  readonly newExperimentButton: Locator;
+  readonly newExperimentDialogInput: Locator;
+  readonly newExperimentDialogCreateButton: Locator;
+  readonly experimentContainerCard: Locator;
   
 
   constructor(page: Page) {
@@ -21,11 +25,12 @@ export class ProjectsPage {
     this.newProjectDialogCreateButton = page.getByRole('button', { name: 'Create' });
     this.projectsCreatedProject = page.locator('#sidebar-wrapper').getByRole('link', { name: 'Playwright project #1' });
     this.projectsContainer = page.locator('#cardsWrapper');
-    // this.projectsContainerCard = this.projectsContainer.locator('project-card');
-    // this.projectsContainerCard = page.locator('div.card.project-card');
-    // this.projectsContainerCard = page.locator('#cardsWrapper div').filter({ hasText: 'Playwright project #' });
     this.projectsContainerCard = page.locator('#cardsWrapper div').getByTitle('Playwright project #');
     this.projectsSideNavBarLink = page.getByRole('link', { name: 'Projects' });
+    this.newExperimentButton = page.getByRole('button', { name: 'New experiment' });
+    this.newExperimentDialogInput = page.getByPlaceholder('My experiment');
+    this.newExperimentDialogCreateButton = page.getByRole('button', { name: 'Create' });
+    this.experimentContainerCard = page.locator('#cardsWrapper div').getByTitle('Playwright experiment #');
   }
 
   async navigateToProjects() {
@@ -37,13 +42,7 @@ export class ProjectsPage {
   }
 
   async findNumberOfExistingProjects() {
-    const numberOfProjects = (await this.projectsContainerCard.all()).length;
-    console.log(numberOfProjects);
-    for(let i=0; i < numberOfProjects; i++) {
-      console.log(await this.projectsContainerCard.nth(i).innerText());
-    }
-    // console.log(await this.projectsContainerCard.all());
-    return numberOfProjects;
+    return (await this.projectsContainerCard.all()).length;
   }
 
   async projectCreation() {
@@ -62,7 +61,6 @@ export class ProjectsPage {
 
   async checkProjectCreated(projectNumber: number) {
     for (let i=0; i < projectNumber; i++) {
-      console.log(await this.projectsContainerCard.nth(i).innerText());
       if (await this.projectsContainerCard.nth(i).innerText() === `Playwright project #${projectNumber}`) {
         return true
       }
@@ -70,4 +68,51 @@ export class ProjectsPage {
     return false;
   }
 
+  async experimentCreation() {
+    const projectNumber = await this.findNumberOfExistingProjects();
+
+    await this.openLatestproject(projectNumber);
+    await this.checkProjectOpened();
+
+    const experimentNumber = await this.findNumberOfExistingExperiments();
+
+    await this.createNewExperiment(experimentNumber);
+    await this.checkExperimentCreated(experimentNumber);
+  }
+
+  async openLatestproject(projectNumber: number) {
+    for (let i=0; i < projectNumber; i++) {
+      if (await this.projectsContainerCard.nth(i).innerText() === `Playwright project #${projectNumber}`) {
+        await this.projectsContainerCard.nth(i).click();
+        break;
+      }
+    }
+  }
+
+  async checkProjectOpened() {
+    expect (await this.newExperimentButton.isVisible()).toBeTruthy();
+  }
+
+  async findNumberOfExistingExperiments() {
+    return (await this.experimentContainerCard.all()).length;
+  }
+
+  async createNewExperiment(experimentNumber: number) {
+    if (experimentNumber === 0) {
+      experimentNumber += 1;
+    }
+
+    await this.newExperimentButton.click();
+    await this.newExperimentDialogInput.fill(`Playwright experiment #${experimentNumber}`);
+    await this.newExperimentDialogCreateButton.click();
+  }
+
+  async checkExperimentCreated(experimentNumber: number) {
+    for (let i=0; i < experimentNumber; i++) {
+      if (await this.experimentContainerCard.nth(i).innerText() === `Playwright experiment #${experimentNumber}`) {
+        return true
+      }
+    }
+    return false;
+  }
 }
