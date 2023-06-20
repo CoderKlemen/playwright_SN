@@ -1,5 +1,4 @@
 import { expect, Locator, Page } from '@playwright/test';
-import environment from '../../environments';
 
 export class DashboardPage {
   readonly page: Page;

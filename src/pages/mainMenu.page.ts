@@ -1,5 +1,4 @@
-import { expect, Locator, Page } from '@playwright/test';
-import environment from '../../environments';
+import { Locator, Page } from '@playwright/test';
 
 export class MainMenuPage {
   readonly page: Page;

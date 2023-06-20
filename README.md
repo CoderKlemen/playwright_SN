@@ -19,37 +19,16 @@ npx playwright install-deps
 ## Test usage
 ```
 # Run tests
-npm run test-e2e
+npm run test
 
 # Run tests in headed mode and with short pauses between actions
-npm run test-e2e:chrome-headed
-
-# Generate and update snapshots
-npm run test-e2e:update-snapshots
+npm run test:chrome-headed
 
 # Run only tests with tag @first
-npm run test-e2e:tagged @first
+npm run test:tagged @first
 
-# Run Playwright code generator on p13dev-latest 
-npm run e2e-codegen:p13dev
+# Run Playwright code generator
+npm run codegen
 
 # ** Check package.json scripts section for all possible commands **
 ```
-
-
-
-## TO-DO
-
-Sign-in > Validate login functionality
-[x] Test case for entry of login credentials
-[x] Validate successful login
-[x] Validate error handling
-    [x] Password
-    [x] email
-
-Create Project and Experiment in the Project
-[x] Test case for creation of Project
-[ ] Test case for creation of Experiment
-[ ] Optional - Error handling:
-    [ ] Duplicated project ( same name )
-    [ ] Project with too short name ( less than 2 chars )

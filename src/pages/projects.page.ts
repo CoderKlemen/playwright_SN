@@ -1,5 +1,4 @@
 import { expect, Locator, Page } from '@playwright/test';
-import environment from '../../environments';
 
 export class ProjectsPage {
   readonly page: Page;
@@ -7,14 +6,16 @@ export class ProjectsPage {
   readonly newProjectDialogHeading: Locator;
   readonly newProjectDialogInput: Locator;
   readonly newProjectDialogCreateButton: Locator;
-  readonly projectsCreatedProject: Locator;
+  readonly newProjectDialogCancelButton: Locator;
   readonly projectsContainer: Locator;
-  readonly projectsContainerCard: Locator;
+  readonly projectsContainerCards: Locator;
   readonly projectsSideNavBarLink: Locator;
   readonly newExperimentButton: Locator;
   readonly newExperimentDialogInput: Locator;
   readonly newExperimentDialogCreateButton: Locator;
   readonly experimentContainerCard: Locator;
+  readonly projectTitleTooShortError: Locator;
+  readonly projectTitleDuplicateError: Locator;
   
 
   constructor(page: Page) {
@@ -23,14 +24,16 @@ export class ProjectsPage {
     this.newProjectDialogHeading = page.getByRole('heading', { name: 'Create new project' });
     this.newProjectDialogInput = page.getByPlaceholder('My project');
     this.newProjectDialogCreateButton = page.getByRole('button', { name: 'Create' });
-    this.projectsCreatedProject = page.locator('#sidebar-wrapper').getByRole('link', { name: 'Playwright project #1' });
+    this.newProjectDialogCancelButton = page.getByRole('button', { name: 'Cancel' });
     this.projectsContainer = page.locator('#cardsWrapper');
-    this.projectsContainerCard = page.locator('#cardsWrapper div').getByTitle('Playwright project #');
+    this.projectsContainerCards = page.locator('#cardsWrapper div').getByTitle('Playwright project #');
     this.projectsSideNavBarLink = page.getByRole('link', { name: 'Projects' });
     this.newExperimentButton = page.getByRole('button', { name: 'New experiment' });
     this.newExperimentDialogInput = page.getByPlaceholder('My experiment');
     this.newExperimentDialogCreateButton = page.getByRole('button', { name: 'Create' });
     this.experimentContainerCard = page.locator('#cardsWrapper div').getByTitle('Playwright experiment #');
+    this.projectTitleTooShortError = page.getByText('is too short (minimum is 2 characters).')
+    this.projectTitleDuplicateError = page.getByText('This project name has to be unique inside a team (this includes the archive).')
   }
 
   async navigateToProjects() {
@@ -42,14 +45,12 @@ export class ProjectsPage {
   }
 
   async findNumberOfExistingProjects() {
-    return (await this.projectsContainerCard.all()).length;
+    return (await this.projectsContainerCards.all()).length;
   }
 
   async projectCreation() {
     const projectNumber = await this.findNumberOfExistingProjects() + 1;
-
     await this.createNewProject(projectNumber);
-
     expect (await this.checkProjectCreated(projectNumber)).toBeTruthy();
   }
 
@@ -61,11 +62,29 @@ export class ProjectsPage {
 
   async checkProjectCreated(projectNumber: number) {
     for (let i=0; i < projectNumber; i++) {
-      if (await this.projectsContainerCard.nth(i).innerText() === `Playwright project #${projectNumber}`) {
+      if (await this.projectsContainerCards.nth(i).innerText() === `Playwright project #${projectNumber}`) {
         return true
       }
     }
     return false;
+  }
+
+  async createNewProjectInvalidTitle(projectTitle: string) {
+    await this.newProjectButton.click();
+    await this.newProjectDialogInput.fill(projectTitle);
+    await this.newProjectDialogCreateButton.click();
+  }
+
+  async checkProjectTitleTooShortErrorDisplayed() {
+    expect(await this.projectTitleTooShortError.isVisible()).toBeTruthy();
+  }
+
+  async checkProjectTitleDuplicateErrorDisplayed() {
+    expect(await this.projectTitleDuplicateError.isVisible()).toBeTruthy();
+  }
+
+  async closeNewProjectDialog() {
+    await this.newProjectDialogCancelButton.click();
   }
 
   async experimentCreation() {
@@ -82,8 +101,8 @@ export class ProjectsPage {
 
   async openLatestproject(projectNumber: number) {
     for (let i=0; i < projectNumber; i++) {
-      if (await this.projectsContainerCard.nth(i).innerText() === `Playwright project #${projectNumber}`) {
-        await this.projectsContainerCard.nth(i).click();
+      if (await this.projectsContainerCards.nth(i).innerText() === `Playwright project #${projectNumber}`) {
+        await this.projectsContainerCards.nth(i).click();
         break;
       }
     }

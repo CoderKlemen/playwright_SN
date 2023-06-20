@@ -31,7 +31,7 @@ export default defineConfig({
     * - on-failure
     * - never
     */
-  reporter: [['html', { open: 'on-failure' }]],
+  reporter: [['html', { open: 'always' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -43,7 +43,6 @@ export default defineConfig({
 
   expect: {
     timeout: 15000,
-    // Are these setting even observed??? So far does not look like it..
     toMatchSnapshot: {
       threshold: 0.2,
       maxDiffPixels: 100,

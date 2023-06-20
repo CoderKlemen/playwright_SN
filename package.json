@@ -8,9 +8,9 @@
     "test:tagged": "npx playwright test --project='chromium' --project='firefox' --workers=1 --project='webkit' --grep",
     "test:chrome-headed": "npx playwright test --project='chromium-headed' --workers=1",
     "test:chrome-headed-tagged": "npx playwright test --project='chromium-headed' --workers=1 --grep",
+    "test:webkit-headed": "npx playwright test --project='webkit-headed' --workers=1",
     "codegen:firefox": "npx playwright codegen -b firefox",
     "codegen": "npx playwright codegen",
-    "codegen:scinote": "npx playwright codegen https://my.scinote.net/",
     "format": "prettier --write \"src/**/*.{js,ts}\" --ignore-path=\".prettierignore\""
   },
   "author": "Klemen Benedicic",
